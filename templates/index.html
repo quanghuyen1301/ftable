@@ -10,13 +10,19 @@
     <div class="container">
         <h1 class="mt-5">User Table</h1>
         <a href="{{ url_for('add') }}" class="btn btn-primary mb-3">Add New User</a>
-        <table class="table table-bordered table-striped">
+        <table class="table table-bordered table-striped" id="userTable">
             <thead class="thead-dark">
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
                     <th>Age</th>
                     <th>Action</th>
+                </tr>
+                <tr>
+                    <th><input type="text" class="form-control" placeholder="Filter ID" onkeyup="filterTable(0)"></th>
+                    <th><input type="text" class="form-control" placeholder="Filter Name" onkeyup="filterTable(1)"></th>
+                    <th><input type="text" class="form-control" placeholder="Filter Age" onkeyup="filterTable(2)"></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -36,5 +42,25 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function filterTable(column) {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementsByTagName('input')[column];
+            filter = input.value.toUpperCase();
+            table = document.getElementById("userTable");
+            tr = table.getElementsByTagName("tr");
+            for (i = 2; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[column];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }       
+            }
+        }
+    </script>
 </body>
 </html>
