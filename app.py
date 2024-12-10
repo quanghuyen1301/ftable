@@ -15,6 +15,18 @@ def index():
     conn.close()
     return render_template('index.html', rows=rows)
 
+@app.route('/add', methods=['GET', 'POST'])
+def add():
+    if request.method == 'POST':
+        name = request.form['name']
+        age = request.form['age']
+        conn = get_db_connection()
+        conn.execute('INSERT INTO users (name, age) VALUES (?, ?)', (name, age))
+        conn.commit()
+        conn.close()
+        return redirect(url_for('index'))
+    return render_template('add.html')
+
 @app.route('/edit/<int:id>', methods=['GET', 'POST'])
 def edit(id):
     conn = get_db_connection()
